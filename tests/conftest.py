@@ -26,6 +26,7 @@ from django.test import override_settings
 from django.test.client import Client
 from mixer.backend.django import mixer as _mixer
 
+
 N_PER_FIXTURE = 3
 N_PER_PAGE = 10
 COMMENT_TEXT_DISPLAY_LEN_FOR_TESTS = 50

@@ -1,26 +1,35 @@
 from django import forms
-from blog.models import Post, Comment, User
+from django.contrib.auth import get_user_model
+
+from .models import Comment, Post
+
+User = get_user_model()
 
 
-class PostForm(forms.ModelForm):
+class CreatePost(forms.ModelForm):
+
     class Meta:
         model = Post
-        exclude = ('author',)
+        exclude = ('author', 'is_published')
         widgets = {
             'pub_date': forms.DateTimeInput(
-                format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local'}
+                attrs={
+                    'type': 'datetime-local',
+                    'format': '%Y-%m-%d %H:%M'
+                }
             )
         }
 
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+class CreateComment(forms.ModelForm):
 
-
-class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('text',)
-        widgets = {'text': forms.Textarea(attrs={'rows': 3, 'cols': 5})}
+        exclude = ('author', 'post', 'is_published')
+
+
+class EditUser(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email')
